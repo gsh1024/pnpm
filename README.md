@@ -1,6 +1,6 @@
 # pnpm
 
-这是一个基于 pnpm workspace 工作空间的体存储库（Monorepo）工程方案。
+这是一个基于 pnpm workspace 工作空间的单体存储库（Monorepo）工程方案。
 
 参考：
 
