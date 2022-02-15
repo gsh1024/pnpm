@@ -1,5 +1,5 @@
 {
-  "name": "cicd",
+  "name": "@jianzhi/cicd",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

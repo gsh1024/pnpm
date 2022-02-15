@@ -11,6 +11,12 @@ importers:
     dependencies:
       rollup: 2.67.2
 
+  packages/player:
+    specifiers:
+      '@jianzhi/cicd': workspace:^1.0.0
+    dependencies:
+      '@jianzhi/cicd': link:../cicd
+
 packages:
 
   /fsevents/2.3.2:
