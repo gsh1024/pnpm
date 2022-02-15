@@ -1,0 +1,16 @@
+{
+  "name": "pnpm",
+  "version": "1.0.0",
+  "description": "这是一个基于 pnpm workspace 工作空间的单体存储库（Monorepo）工程方案，简知的私有 npm 包都将基于此方案实现。旧的私有包位于 [npm](https://gitee.com/jz-fe/npm) 仓库中。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitee.com:jz-fe/pnpm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
