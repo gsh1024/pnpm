@@ -1,0 +1,13 @@
+{
+  "name": "@jianzhi/deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "bin": {
+    "jz-deploy": "./bin/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
