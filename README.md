@@ -2,13 +2,15 @@
 
 这是一个基于 pnpm workspace 工作空间的单体存储库（Monorepo）工程方案，简知的私有 npm 包都将基于此方案实现。旧的私有包位于 [npm](https://gitee.com/jz-fe/npm) 仓库中。
 
-### Scope
+### - 组织范围
 
 monorepo 仓库下所有的包都被定义在 `@jianzhi` 这一组织范围里面，所以各个包的 `package.json` 文件中的 `name` 应该定义为 `@jianzhi/xxx`。
 
 旧的 [npm](https://gitee.com/jz-fe/npm) 包则限定在 `@jianzhikeji` 组织范围中，以此来区分新旧的 npm 包。
 
-### 常用命令
+详细参见 [scope](https://docs.npmjs.com/cli/v6/using-npm/scope)
+
+### - 常用命令
 
 ``` bash
 pnpm add axios -w    # 明确安装到工作区的根目录（被所有包共享）
@@ -22,7 +24,7 @@ pnpm link --global @jianzhi/pkg1    # 给 npm 用时需要 cd packages/pkg1 然�
 
 更多命令参见 [CLI commands](https://pnpm.io/cli/add)
 
-### 参考
+### - 文档参考
 
 - [5 分钟搞懂 Monorepo](https://xie.infoq.cn/article/4f870ba6a7c8e0fd825295c92)
 - [pnpm Workspace](https://pnpm.io/workspaces)
