@@ -7,7 +7,11 @@
   "bin": {
     "jz-deploy": "./bin/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/jz-fe/pnpm/tree/master/packages/deploy"
+  },
   "keywords": [],
-  "author": "",
+  "author": "guoshuohui",
   "license": "ISC"
 }

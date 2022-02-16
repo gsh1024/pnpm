@@ -24,6 +24,10 @@ pnpm link --global @jianzhi/pkg1    # 给 npm 用时需要 cd packages/pkg1 然�
 
 更多命令参见 [CLI commands](https://pnpm.io/cli/add)
 
+### - 注意事项
+
+- 自定义的 npm 命令都必须添加 `jz-` 前缀，避免与其他第三方包命令冲突，命名统一采用横杆命名。
+
 ### - 文档参考
 
 - [5 分钟搞懂 Monorepo](https://xie.infoq.cn/article/4f870ba6a7c8e0fd825295c92)
