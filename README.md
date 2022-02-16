@@ -2,6 +2,11 @@
 
 这是一个基于 pnpm workspace 工作空间的单体存储库（Monorepo）工程方案，简知的私有 npm 包都将基于此方案实现。旧的私有包位于 [npm](https://gitee.com/jz-fe/npm) 仓库中。
 
+### Scope
+
+monorepo 仓库下所有的包都被定义在 `@jianzhi` 这一组织范围里面，所以各个包的 `package.json` 文件中的 `name` 应该定义为 `@jianzhi/xxx`。
+
+旧的 [npm](https://gitee.com/jz-fe/npm) 包则限定在 `@jianzhikeji` 组织范围中，以此来区分新旧的 npm 包。
 
 ### 常用命令
 
