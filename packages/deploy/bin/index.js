@@ -12,7 +12,7 @@ const shell = require('shelljs')
 const { Command } = require('commander')
 const program = new Command()
 
-const service = require('../lib/service')
+// const service = require('../lib/service')
 // const qshellConfig = require(path.resolve('./qshell.config.js'))
 
 // console.log(qshellConfig)
@@ -21,20 +21,24 @@ program
   .name('jz-deploy')
   .description('jz-deploy 是一款简知前端应用部署工具，旨在让 CD 流程更加简单高效~')
   .version('0.1.0', '-v, --version', '输出版本信息')
+  .usage('<command> [options]')
 
 program
-  .helpOption('-h, --help', ' 显示帮助信息')
+  .helpOption('-h, --help', '显示帮助信息')
   .option('-e, --env', '指定部署环境，test 测试，pre 预发布，prod 生产')
   .option('-r, --robot', '开启企微机器人通知')
 
 program
-  .command('init')
-  .description('初始化配置文件 deploy.config.js')
-  .option('-h, --help', '查看')
+  .command('run')
+  .description('运行指定服务')
+  .helpOption('-h, --help', '查看当前命令帮助信息')
   .action((str, opts) => {
     console.log(str)
+    console.log(opts.args)
+    // console.log(opts.optsWithGlobals())
   })
 
+//'初始化配置文件 deploy.config.js'
 
 program.parse()
 
@@ -46,10 +50,10 @@ if (opts.robot) {
 
 
 
-console.log(opts)
-console.log(program.args)
+// console.log(opts)
+// console.log(program.args)
 
-service.run()
+// service.run()
 
 // jz-deploy
 // program
