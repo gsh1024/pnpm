@@ -11,9 +11,11 @@
     "url": "git@gitee.com:jz-fe/pnpm.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "guoshuohui",
   "license": "ISC",
   "dependencies": {
-    "commander": "^9.0.0"
+    "commander": "^9.0.0",
+    "lowdb": "^3.0.0",
+    "shelljs": "^0.8.5"
   }
 }
