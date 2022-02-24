@@ -25,11 +25,13 @@ module.exports = (service, params) => {
   // 服务端 <生产企微机器人key, 测试和预发布企微机器人key>
   if (args.server) {
     if (env === 'server') {
-      fs.writeFileSync(service.robotConfig, `module.exports = ${JSON.stringify({
+      fs.writeFileSync(service.robotConfig, `module.exports=${JSON.stringify({
         prod: args.server[0],
         pre: args.server[1],
         test: args.server[1]
-      })}`, { encoding: 'utf-8' })
+      })}`, {
+        encoding: 'utf-8'
+      })
     } else {
       log.warn('不允许在客户端运行该命令')
     }
