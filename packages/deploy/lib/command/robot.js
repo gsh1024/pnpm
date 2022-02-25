@@ -40,8 +40,9 @@ module.exports = (service, options) => {
         template_card: {
           card_type: 'text_notice',
           source: {
-            desc: '- 前端应用发布通知 -',
-            desc_color: options.code === 200 ? 3 : 2
+            desc: '前端应用发布通知',
+            desc_color: options.code === 200 ? 3 : 2,
+            icon_url: `https://cq1.jianzhishuyuan.net/static/img/${options.code === 200 ? 'success' : 'fail'}.png?v=123`
           },
           main_title: {
             title: '简知平台H5学习环境',
@@ -53,7 +54,8 @@ module.exports = (service, options) => {
           },
           quote_area: {
             type: 0,
-            quote_text: options.exec.stdout || options.exec.stderr || ''
+            quote_text: options.exec ? options.exec.stdout || options.exec.stderr : '',
+            url: 'https://weibo.com'
           },
           horizontal_content_list: [
             {
@@ -71,15 +73,22 @@ module.exports = (service, options) => {
               value: service.getExecTime(),
               type: 0
             },
-            // {
-            //   keyname: '通知员工',
-            //   type: 3,
-            //   userid: 'NingJingZhiYuan'
-            // },
             {
               keyname: '构建版本',
               value: env.GitCommit || '',
               type: 0
+            }
+          ],
+          jump_list: [
+            {
+              title: '查看代码FAQ',
+              type: 1,
+              url: 'https://yuque.com'
+            },
+            {
+              title: '查看控制台详情',
+              type: 1,
+              url: 'https://jenkins-test.jianzhikeji.com/job/cicd/62/console'
             }
           ],
           card_action: {

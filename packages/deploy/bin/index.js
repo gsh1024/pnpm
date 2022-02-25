@@ -38,7 +38,7 @@ program
     const serverConfig = service.checkServerConfig(true)
     const deployConfig = service.checkDeployConfig(true)
     if (deployConfig && serverConfig) {
-      service.cmd('build')
+      // service.cmd('build')
       service.cmd('qiniu')
       service.cmd('robot', {
         code: 200
