@@ -16,7 +16,12 @@ module.exports = (service) => {
     options += ` --${i.replace(/_/g, '-')}=${qupload[i]}`
   }
 
-  if (shell.exec(`qshell qupload2${options}`).code) {
+  const execUpload = shell.exec(`qshell qupload2${options}`)
+  if (execUpload.code) {
+    service.cmd('robot', {
+      code: 204,
+      exec: execUpload
+    })
     shell.exit(1)
   }
 }

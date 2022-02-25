@@ -102,7 +102,7 @@ module.exports = class Service {
       203: '应用构建错误',
       204: '资源部署错误'
     }
-    return code && error[code] ? error[code] : '未知'
+    return code && error[code] ? error[code] : ''
   }
 
   // 命令

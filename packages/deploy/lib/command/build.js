@@ -17,13 +17,23 @@ module.exports = (service) => {
 
   shell.echo(log.green('--- 安装依赖 ---'))
 
-  if (shell.exec('npm install').code) {
+  const execInstall = shell.exec('npm install')
+  if (execInstall.code) {
+    service.cmd('robot', {
+      code: 201,
+      exec: execInstall
+    })
     shell.exit(1)
   }
 
   shell.echo(log.green('--- 代码检测 ---'))
 
-  if (shell.exec('npx vue-cli-service lint').code) {
+  const execLint = shell.exec('npx vue-cli-service lint')
+  if (execLint.code) {
+    service.cmd('robot', {
+      code: 202,
+      exec: execLint
+    })
     shell.exit(1)
   }
 
@@ -43,7 +53,12 @@ module.exports = (service) => {
       clean = ' --no-clean'
     }
   }
-  if (shell.exec(`npx vue-cli-service build${report}${clean}`).code) {
+  const execBuild = shell.exec(`npx vue-cli-service build${report}${clean}`)
+  if (execBuild.code) {
+    service.cmd('robot', {
+      code: 203,
+      exec: execBuild
+    })
     shell.exit(1)
   }
 }

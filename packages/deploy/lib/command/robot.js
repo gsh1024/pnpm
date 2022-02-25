@@ -52,7 +52,8 @@ module.exports = (service, options) => {
             desc: service.getCodeTips(options.code)
           },
           quote_area: {
-            type: 0
+            type: 0,
+            quote_text: options.exec.stdout || options.exec.stderr || ''
           },
           horizontal_content_list: [
             {
@@ -62,7 +63,7 @@ module.exports = (service, options) => {
             },
             {
               keyname: '执行次数',
-              value: "120",
+              value: env.BuildNumber || '0',
               type: 0
             },
             {
@@ -70,14 +71,14 @@ module.exports = (service, options) => {
               value: service.getExecTime(),
               type: 0
             },
-            {
-              keyname: '通知员工',
-              type: 3,
-              userid: 'NingJingZhiYuan'
-            },
+            // {
+            //   keyname: '通知员工',
+            //   type: 3,
+            //   userid: 'NingJingZhiYuan'
+            // },
             {
               keyname: '构建版本',
-              value: 'fdc5127f35c022ffced763ecf47cf67b3ed706db',
+              value: env.GitCommit || '',
               type: 0
             }
           ],

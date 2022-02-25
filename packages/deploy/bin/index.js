@@ -38,10 +38,10 @@ program
     const serverConfig = service.checkServerConfig(true)
     const deployConfig = service.checkDeployConfig(true)
     if (deployConfig && serverConfig) {
-      // service.cmd('build')
-      // service.cmd('qiniu')
+      service.cmd('build')
+      service.cmd('qiniu')
       service.cmd('robot', {
-        code: 201
+        code: 200
       })
       console.log(EOL + log.green('CI/CD 任务执行完成~'))
     }
