@@ -6,10 +6,10 @@ const fs = require('fs')
 const { EOL, type } = require('os')
 const log = require('../log')
 
-module.exports = (service, params) => {
+module.exports = (service) => {
 
   // 校验
-  const args = params[0]
+  const args = service.params[0]
   const argsLength = Object.keys(args).length
   if (argsLength === 0) {
     log.warn('请带上参数，可通过 -h 查看帮助')
@@ -22,14 +22,15 @@ module.exports = (service, params) => {
 
   const env = service.env()
 
-  // 服务端 <生产企微机器人key, 测试和预发布企微机器人key>
+  // 服务端
   if (args.server) {
     if (env === 'server') {
-      fs.writeFileSync(service.robotConfig, `module.exports=${JSON.stringify({
-        prod: args.server[0],
-        pre: args.server[1],
-        test: args.server[1]
-      })}`, {
+      let obj = {}
+      args.server.forEach(item => {
+        obj[item.split('=')[0]] = item.split('=')[1]
+      })
+      let serverConfig = Object.assign(service.serverConfig || {}, obj)
+      fs.writeFileSync(service.serverConfigUrl, `module.exports=${JSON.stringify(serverConfig)}`, {
         encoding: 'utf-8'
       })
     } else {
@@ -40,7 +41,7 @@ module.exports = (service, params) => {
   // 客户端
   if (args.client) {
     if (env === 'client') {
-      const config = service.checkConfig()
+      const config = service.checkDeployConfig()
       if (config) {
         log.warn(`${log.green('deploy.config.js')} 文件已经存在。`)
       } else {

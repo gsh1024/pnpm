@@ -4,14 +4,11 @@
  * 可自行命令入口
  */
 
-const path = require('path')
-const shell = require('shelljs')
+const { EOL, type } = require('os')
 const { Command } = require('commander')
 const program = new Command()
 const log = require('../lib/log')
 const Service = require('../lib/service')
-const service = new Service()
-
 
 // 命令 - 描述
 program
@@ -23,37 +20,32 @@ program
   .addHelpCommand(false)
   .addHelpText('after', `\n运行 ${log.cyan('jz-deploy <command> -h')} 可查看指定命令帮助信息`)
 
-// .option('-e, --env', '指定部署环境，test 测试，pre 预发布，prod 生产')
-// .option('-r, --robot', '开启企微机器人通知')
-
 // 命令 - 初始化配置
 program
   .command('init')
   .description('初始化配置')
-  .option('-s --server <server...>', '服务端，<生产企微机器人key, 测试和预发布企微机器人key>')
+  .option('-s --server <options...>', '服务端，<属性=值 + 空格 + 属性=值>')
   .option('-c --client', '客户端')
-  .action((...params) => service.cmd('init', params))
+  .action((...params) => new Service(params).cmd('init'))
 
 // 命令 - 启动部署服务
 program
   .command('start')
   .description('启动部署服务')
-  .action((str, opts) => {
-    const config = service.checkConfig(true)
-    console.log(config)
-    if (config) {
-
+  .option('-e --env <option>', '指定运行环境: test、pre、prod')
+  .action((...params) => {
+    const service = new Service(params)
+    const serverConfig = service.checkServerConfig(true)
+    const deployConfig = service.checkDeployConfig(true)
+    if (deployConfig && serverConfig) {
+      // service.cmd('build')
+      // service.cmd('qiniu')
+      service.cmd('robot', {
+        code: 201
+      })
+      console.log(EOL + log.green('CI/CD 任务执行完成~'))
     }
-    // console.log(str)
-    // console.log(opts.args)
-    // console.log(opts.optsWithGlobals())
   })
 
 // 命令 - 解析配置
 program.parse()
-
-// const opts = program.opts()
-
-// if (opts.robot) {
-
-// }

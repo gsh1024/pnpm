@@ -64,4 +64,5 @@ typings/
 # next.js build output
 .next
 
-robot-config.js
+.secret/
+deploy.config.js

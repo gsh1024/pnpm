@@ -31,3 +31,20 @@ data = json.dumps(
             }
         )
 requests.post(WeChat_url, data, auth=('Content-Type', 'application/json'))
+
+
+
+      // const info = {
+      //   msgtype: 'markdown',
+      //   markdown: {
+      //     content:
+      //       `<font color="info">前端 CI/CD 通知</font> \n` +
+      //       `>任务名称：<font color="comment">${env.JobName}</font> \n` +
+      //       `>任务分支：<font color="comment">${env.GIT_BRANCH}</font> \n` +
+      //       `>任务地址：[${env.UrlJob}](${env.UrlJob}) \n` +
+      //       `>构建时间：<font color="comment">${env.BuildTime}</font> \n` +
+      //       `>构建次数：<font color="comment">${env.BuildNumber}</font> \n` +
+      //       `>构建版本：<font color="comment">${env.GitCommit}</font> \n` +
+      //       `>任务状态：<font color="info">已完成</font> \n`
+      //   }
+      // }
