@@ -11,9 +11,11 @@ module.exports = class Service {
 
   // 配置
   constructor(params = []) {
+    const serverConfigDir = path.join(__dirname, '../', '.secret')
     this.startDate = new Date()
     this.tplConfig = path.join(__dirname, './', 'template/config.js')
-    this.serverConfigUrl = path.join(__dirname, '../', '.secret/server.config.js')
+    this.serverConfigDir = serverConfigDir
+    this.serverConfigUrl = serverConfigDir + '/server.config.js'
     this.deployConfigUrl = path.resolve('./deploy.config.js')
     this.vueConfig = path.resolve('./vue.config.js')
     this.params = params
@@ -89,7 +91,7 @@ module.exports = class Service {
   // 环境
   env() {
     const type = os.type()
-    let str = type === 'linux' ? 'server' : 'client'
+    let str = type === 'Linux' ? 'server' : 'client'
     return str
   }
 

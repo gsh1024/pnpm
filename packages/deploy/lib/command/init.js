@@ -13,22 +13,24 @@ module.exports = (service) => {
 
   // 服务端
   if (args.server) {
-    if (env === 'server') {
-      let obj = {}
-      args.server.forEach(item => {
-        if (item.includes('=') && item.split('=')[1]) {
-          obj[item.split('=')[0]] = item.split('=')[1]
-        } else {
-          log.error(`请配置好选项 - ${log.yellow(item.split('=')[0])}`)
-        }
-      })
-      let serverConfig = Object.assign(service.serverConfig || {}, obj)
-      fs.writeFileSync(service.serverConfigUrl, `module.exports=${JSON.stringify(serverConfig)}`, {
-        encoding: 'utf-8'
-      })
-    } else {
-      log.warn('不允许在项目端运行该命令')
+    try {
+      fs.statSync(service.serverConfigDir).isDirectory()
+    } catch (error) {
+      fs.mkdirSync(service.serverConfigDir)
     }
+    let obj = {}
+    args.server.forEach(item => {
+      if (item.includes('=') && item.split('=')[1]) {
+        obj[item.split('=')[0]] = item.split('=')[1]
+      } else {
+        log.error(`请配置好选项 - ${log.yellow(item.split('=')[0])}`)
+      }
+    })
+    let serverConfig = Object.assign(service.serverConfig || {}, obj)
+    fs.writeFileSync(service.serverConfigUrl, `module.exports=${JSON.stringify(serverConfig)}`, {
+      encoding: 'utf-8'
+    })
+    log.info('服务配置初始化成功~')
   }
 
   // 项目端

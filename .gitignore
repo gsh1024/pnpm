@@ -66,3 +66,4 @@ typings/
 
 .secret/
 deploy.config.js
+server.config.js

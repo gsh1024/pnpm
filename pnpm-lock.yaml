@@ -13,7 +13,14 @@ importers:
       shelljs: 0.8.5
 
   packages/deploy:
-    specifiers: {}
+    specifiers:
+      chalk: 4.1.2
+      commander: ^9.0.0
+      shelljs: ^0.8.5
+    dependencies:
+      chalk: 4.1.2
+      commander: 9.0.0
+      shelljs: 0.8.5
 
 packages:
 
@@ -146,7 +153,6 @@ packages:
 
   /resolve/1.22.0:
     resolution: {integrity: sha512-Hhtrw0nLeSrFQ7phPp4OOcVjLPIeMnRlr5mcnVuMe7M/7eBn98A3hmFRLoFo3DLZkivSYwhRUJTyPyWAk56WLw==}
-    hasBin: true
     dependencies:
       is-core-module: 2.8.1
       path-parse: 1.0.7
@@ -156,7 +162,6 @@ packages:
   /shelljs/0.8.5:
     resolution: {integrity: sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==}
     engines: {node: '>=4'}
-    hasBin: true
     dependencies:
       glob: 7.2.0
       interpret: 1.4.0
