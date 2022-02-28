@@ -1,5 +1,8 @@
 module.exports = {
 
+  // 任务中文名
+  name: '',
+
   // 构建
   build: {
 
@@ -7,7 +10,10 @@ module.exports = {
     report: 'html',
 
     // 构建之前清除目标目录
-    clean: false
+    clean: false,
+
+    // 自动测试
+    test: true
   },
 
   // qshell 配置

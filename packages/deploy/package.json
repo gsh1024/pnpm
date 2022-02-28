@@ -1,7 +1,7 @@
 {
   "name": "@jianzhi/deploy",
   "version": "0.0.1",
-  "description": "简知 CD 工具",
+  "description": "JZ-Deploy 是一款由简知前端自研，致力于让简知前端应用 CI/CD 流程更加简单高效的 CLI 工具~",
   "main": "index.js",
   "scripts": {},
   "bin": {
@@ -11,10 +11,12 @@
     "type": "git",
     "url": "https://gitee.com/jz-fe/pnpm/tree/master/packages/deploy"
   },
-  "keywords": [],
+  "keywords": [
+    "CI",
+    "CD",
+    "七牛",
+    "企微机器人"
+  ],
   "author": "guoshuohui",
-  "license": "ISC",
-  "dependencies": {
-    "commander": "^9.0.0"
-  }
+  "license": "ISC"
 }

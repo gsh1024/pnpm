@@ -7,7 +7,7 @@ const log = require('../log')
 
 module.exports = (service) => {
   const deployConfig = service.deployConfig
-  const qupload = deployConfig.qshell.qupload
+  const { qupload } = deployConfig.qshell
 
   shell.echo(log.green('--- 资源部署 ---'))
 
@@ -19,7 +19,7 @@ module.exports = (service) => {
   const execUpload = shell.exec(`qshell qupload2${options}`)
   if (execUpload.code) {
     service.cmd('robot', {
-      code: 204,
+      code: 205,
       exec: execUpload
     })
     shell.exit(1)

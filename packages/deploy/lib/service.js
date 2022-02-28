@@ -21,7 +21,7 @@ module.exports = class Service {
     this.serverConfig = this.checkServerConfig()
   }
 
-  // 检测客户端配置，errorTips 为 true 则输出报错信息
+  // 检测项目端配置，errorTips 为 true 则输出报错信息
   checkDeployConfig(errorTips = false) {
     try {
       const config = require(this.deployConfigUrl)
@@ -41,7 +41,7 @@ module.exports = class Service {
     }
   }
 
-  // 检测客户端配置，errorTips 为 true 则输出报错信息
+  // 检测服务端配置，errorTips 为 true 则输出报错信息
   checkServerConfig(errorTips = false) {
     try {
       const config = require(this.serverConfigUrl)
@@ -90,7 +90,7 @@ module.exports = class Service {
   env() {
     const type = os.type()
     let str = type === 'linux' ? 'server' : 'client'
-    return 'server'
+    return str
   }
 
   // 获取代码提示
@@ -99,8 +99,9 @@ module.exports = class Service {
       200: '任务执行成功',
       201: '依赖安装错误',
       202: '代码检测错误',
-      203: '应用构建错误',
-      204: '资源部署错误'
+      203: '自动测试错误',
+      204: '应用构建错误',
+      205: '资源部署错误'
     }
     return code && error[code] ? error[code] : ''
   }

@@ -8,18 +8,7 @@ const log = require('../log')
 
 module.exports = (service) => {
 
-  // 校验
   const args = service.params[0]
-  const argsLength = Object.keys(args).length
-  if (argsLength === 0) {
-    log.warn('请带上参数，可通过 -h 查看帮助')
-    return
-  }
-  if (argsLength > 1) {
-    log.warn('不允许同时初始化服务端和客户端配置')
-    return
-  }
-
   const env = service.env()
 
   // 服务端
@@ -27,19 +16,23 @@ module.exports = (service) => {
     if (env === 'server') {
       let obj = {}
       args.server.forEach(item => {
-        obj[item.split('=')[0]] = item.split('=')[1]
+        if (item.includes('=') && item.split('=')[1]) {
+          obj[item.split('=')[0]] = item.split('=')[1]
+        } else {
+          log.error(`请配置好选项 - ${log.yellow(item.split('=')[0])}`)
+        }
       })
       let serverConfig = Object.assign(service.serverConfig || {}, obj)
       fs.writeFileSync(service.serverConfigUrl, `module.exports=${JSON.stringify(serverConfig)}`, {
         encoding: 'utf-8'
       })
     } else {
-      log.warn('不允许在客户端运行该命令')
+      log.warn('不允许在项目端运行该命令')
     }
   }
 
-  // 客户端
-  if (args.client) {
+  // 项目端
+  if (args.project) {
     if (env === 'client') {
       const config = service.checkDeployConfig()
       if (config) {
@@ -49,7 +42,7 @@ module.exports = (service) => {
           encoding: 'utf-8'
         })
         const lines = tplConfig.split(/\r?\n/g)
-        fs.writeFileSync(service.deployConfig, lines.join(EOL), {
+        fs.writeFileSync(service.deployConfigUrl, lines.join(EOL), {
           encoding: 'utf-8'
         })
         log.info('配置初始化成功~')

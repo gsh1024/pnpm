@@ -1,1 +1,3 @@
-## 简知前端 CD 持续部署 CLI 工具
+## JZ-Deploy CLI 命令行工具
+
+[在线文档](https://jz-tech.yuque.com/jz-tech/fe-cicd/bxygvb)

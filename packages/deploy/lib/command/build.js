@@ -6,8 +6,7 @@ const shell = require('shelljs')
 const log = require('../log')
 
 module.exports = (service) => {
-  const deployConfig = service.deployConfig
-  const build = deployConfig.build
+  const { build } = service.deployConfig
 
   shell.echo(log.green('--- 环境信息 ---'))
 
@@ -37,6 +36,20 @@ module.exports = (service) => {
     shell.exit(1)
   }
 
+  // 非必须
+  if (build && build.test) {
+    shell.echo(log.green('--- 自动测试 ---'))
+
+    const execTest = shell.exec('npm run test')
+    if (execTest.code) {
+      service.cmd('robot', {
+        code: 203,
+        exec: execTest
+      })
+    }
+    return
+  }
+
   shell.echo(log.green('--- 应用构建 ---'))
 
   let report = ''
@@ -53,10 +66,11 @@ module.exports = (service) => {
       clean = ' --no-clean'
     }
   }
+
   const execBuild = shell.exec(`npx vue-cli-service build${report}${clean}`)
   if (execBuild.code) {
     service.cmd('robot', {
-      code: 203,
+      code: 204,
       exec: execBuild
     })
     shell.exit(1)
