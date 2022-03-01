@@ -11,7 +11,8 @@ module.exports = class Service {
 
   // 配置
   constructor(params = []) {
-    const serverConfigDir = path.join(__dirname, '../', '.secret')
+    const home = process.env.HOME || process.env.USERPROFILE
+    const serverConfigDir = home + '/.config/jz-deploy'
     this.startDate = new Date()
     this.tplConfig = path.join(__dirname, './', 'template/config.js')
     this.serverConfigDir = serverConfigDir
@@ -51,13 +52,13 @@ module.exports = class Service {
         return config
       } else {
         if (errorTips) {
-          log.error(`请检查 ${log.cyan('.secret/server.config.js')} 文件是否配置正确。`)
+          log.error(`请检查 ${log.cyan('~/.config/jz-deploy/server.config.js')} 文件是否配置正确。`)
         }
         return false
       }
     } catch (error) {
       if (errorTips) {
-        log.error(`没有找到 ${log.cyan('.secret/server.config.js')} 配置文件，请在项目中运行 ${log.green('jz-deploy init -r')} 命令生成该文件。`)
+        log.error(`没有找到 ${log.cyan('~/.config/jz-deploy/server.config.js')} 配置文件，请在项目中运行 ${log.green('jz-deploy init -r')} 命令生成该文件。`)
       }
       return false
     }

@@ -46,8 +46,8 @@ module.exports = (service) => {
         code: 203,
         exec: execTest
       })
+      shell.exit(1)
     }
-    return
   }
 
   shell.echo(log.green('--- 应用构建 ---'))

@@ -4,9 +4,10 @@
  * 可自行命令入口
  */
 
-const { EOL, type } = require('os')
+// const { EOL } = require('os')
 const { Command } = require('commander')
 const program = new Command()
+const package = require('../package.json')
 const log = require('../lib/log')
 const Service = require('../lib/service')
 
@@ -14,7 +15,7 @@ const Service = require('../lib/service')
 program
   .name('jz-deploy')
   .description('JZ-Deploy 是一款由简知前端自研，致力于让简知前端应用 CI/CD 流程更加简单高效的 CLI 工具~')
-  .version('0.1.0', '-v, --version', '输出版本信息')
+  .version(package.version, '-v, --version', '输出版本信息')
   .usage('<command> [options]')
   .helpOption('-h, --help', '显示命令帮助信息')
   .addHelpCommand(false)
@@ -59,7 +60,7 @@ program
       service.cmd('robot', {
         code: 200
       })
-      console.log(EOL + log.green('CI/CD 任务执行完成~'))
+      // console.log(EOL + log.green('--- CI/CD 任务执行完成 ---'))
     }
   })
 

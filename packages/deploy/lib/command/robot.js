@@ -28,7 +28,7 @@ module.exports = (service, options) => {
 
     let key = serverConfig[`${args.env}Key`]
     if (key) {
-      const jobUrl = 'https://jenkins.jianzhikeji.com' + (env.GIT_BRANCH ? `/job/${env.GIT_BRANCH}/${env.BuildNumber}/console` : '')
+      const consoleUrl = `${env.BUILD_URL}console`
       const info = {
         msgtype: 'template_card',
         template_card: {
@@ -49,12 +49,12 @@ module.exports = (service, options) => {
           quote_area: {
             type: 0,
             quote_text: options.exec ? options.exec.stdout || options.exec.stderr : '',
-            url: jobUrl
+            url: consoleUrl
           },
           horizontal_content_list: [
             {
               keyname: '任务名称',
-              value: env.JobName || '未知',
+              value: env.JOB_NAME || '未知',
               type: 0
             },
             {
@@ -64,7 +64,7 @@ module.exports = (service, options) => {
             },
             {
               keyname: '执行次数',
-              value: env.BuildNumber || '0',
+              value: env.BUILD_ID || '0',
               type: 0
             },
             {
@@ -74,7 +74,7 @@ module.exports = (service, options) => {
             },
             {
               keyname: '构建版本',
-              value: env.GitCommit || '未知',
+              value: env.GIT_COMMIT || '未知',
               type: 0
             }
           ],
@@ -87,18 +87,22 @@ module.exports = (service, options) => {
             {
               title: '查看控制台详情',
               type: 1,
-              url: jobUrl
+              url: consoleUrl
             }
           ],
           card_action: {
             type: 1,
-            url: jobUrl
+            url: consoleUrl
           }
         }
       }
 
       if (shell.exec(`curl 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?debug=1&key=${key}' -H 'Content-Type:application/json' -d '${JSON.stringify(info)}'`).code) {
         shell.exit(1)
+      }
+
+      if (options.code === 200) {
+        shell.exit(0)
       }
     } else {
       log.error(`请检查通知机器人的 key 是否配置正确，可通过 ${log.green('jz-deploy show -t server')} 查看配置信息`)
