@@ -92,7 +92,7 @@ module.exports = (service, options) => {
           ],
           card_action: {
             type: 1,
-            url: consoleUrl
+            url: env.BUILD_URL
           }
         }
       }

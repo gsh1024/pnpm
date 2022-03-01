@@ -19,6 +19,9 @@ module.exports = {
   // qshell 配置
   qshell: {
 
+    // cdn 地址
+    url: '//cq1.jianzhishuyuan.net/',
+
     // qupload 方法
     qupload: {
 
@@ -39,6 +42,12 @@ module.exports = {
 
       // 检测新增
       rescan_local: true,
+
+      // 检测是否在空间中存在
+      check_exists: true,
+
+      // 检测大小，避免同名内容不同
+      check_size: true,
 
       // 并发数量
       thread_count: 2
