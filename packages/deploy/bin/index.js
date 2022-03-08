@@ -4,7 +4,6 @@
  * 可自行命令入口
  */
 
-// const { EOL } = require('os')
 const { Command } = require('commander')
 const program = new Command()
 const package = require('../package.json')
@@ -57,10 +56,10 @@ program
     if (deployConfig && serverConfig) {
       service.cmd('build')
       service.cmd('qiniu')
+      service.cmd('ansible')
       service.cmd('robot', {
         code: 200
       })
-      // console.log(EOL + log.green('--- CI/CD 任务执行完成 ---'))
     }
   })
 

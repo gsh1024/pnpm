@@ -18,7 +18,8 @@ pnpm add pkg -r    # 明确安装到工作区的每个包中（一般不用）
 pnpm add pkg --filter pkg   # pkg 为子包 package.json 的 name 字段名
 pnpm add @jianzhi/pkg1 -r --filter pkg2    # 前提是 @jianzhi/pkg1 没有在远程 npm 库上，才会自动走 workspace 关联到 pkg2 包里面
 pnpm link --global @jianzhi/pkg    # 给 npm 用时需要 cd packages/pkg 然后执行 npm link
-pnpm publish --filter @jianzhi/pkg --no-git-checks    # 发布包且无需提交 git
+pnpm publish --filter @jianzhi/pkg --no-git-checks    # 发布包且无需提交 git，强制覆盖用 --force
+pnpm unpublish --filter @jianzhi/pkg --no-git-checks --force    # 删除包
 ```
 
 > 注意：尽量采用 pnpm 的自定义命令替代 npm 的命令别名，例如添加某个包时用 `add` 替代 `install`，用 `remove` 替代 `uninstall`，因为 pnpm 会对传递参数进行校验，拥有自己的一套校验规则，如果强行使用未知命令，会被作为一个普通的 shell 来执行，可能会导致异常。

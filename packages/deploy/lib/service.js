@@ -14,7 +14,8 @@ module.exports = class Service {
     const home = process.env.HOME || process.env.USERPROFILE
     const serverConfigDir = home + '/.config/jz-deploy'
     this.startDate = new Date()
-    this.tplConfig = path.join(__dirname, './', 'template/config.js')
+    this.tplConfigUrl = path.join(__dirname, './', 'template/config.js')
+    this.tplConfigDefault = require(path.join(__dirname, './', 'template/config-default.js'))
     this.serverConfigDir = serverConfigDir
     this.serverConfigUrl = serverConfigDir + '/server.config.js'
     this.deployConfigUrl = path.resolve('./deploy.config.js')
@@ -104,9 +105,20 @@ module.exports = class Service {
       202: '代码检测错误',
       203: '自动测试错误',
       204: '应用构建错误',
-      205: '资源部署错误'
+      205: '资源部署错误',
+      206: '应用分发错误'
     }
     return code && error[code] ? error[code] : ''
+  }
+
+  // 任务环境
+  getTaskEnv(type) {
+    const env = {
+      test: '测试',
+      pre: '预发布',
+      prod: '生产'
+    }
+    return env[type] || '未知'
   }
 
   // 命令

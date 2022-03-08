@@ -40,7 +40,7 @@ module.exports = (service) => {
       if (config) {
         log.warn(`${log.green('deploy.config.js')} 文件已经存在。`)
       } else {
-        const tplConfig = fs.readFileSync(service.tplConfig, {
+        const tplConfig = fs.readFileSync(service.tplConfigUrl, {
           encoding: 'utf-8'
         })
         const lines = tplConfig.split(/\r?\n/g)

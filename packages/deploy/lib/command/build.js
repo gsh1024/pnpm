@@ -6,7 +6,7 @@ const shell = require('shelljs')
 const log = require('../log')
 
 module.exports = (service) => {
-  const { build } = service.deployConfig
+  const options = Object.assign(service.tplConfigDefault.build, service.deployConfig.build || {})
 
   shell.echo(log.green('--- 环境信息 ---'))
 
@@ -37,7 +37,7 @@ module.exports = (service) => {
   }
 
   // 非必须
-  if (build && build.test) {
+  if (options && options.test) {
     shell.echo(log.green('--- 自动测试 ---'))
 
     const execTest = shell.exec('npm run test')
@@ -54,17 +54,13 @@ module.exports = (service) => {
 
   let report = ''
   let clean = ''
-  if (build) {
-    if (build.report) {
-      if (build.report === 'html') {
-        report = ' --report'
-      } else if (build.report === 'json') {
-        report = ' --report-json'
-      }
-    }
-    if (!build.clean) {
-      clean = ' --no-clean'
-    }
+  if (options.report === 'html') {
+    report = ' --report'
+  } else if (options.report === 'json') {
+    report = ' --report-json'
+  }
+  if (!options.clean) {
+    clean = ' --no-clean'
   }
 
   const execBuild = shell.exec(`npx vue-cli-service build${report}${clean}`)

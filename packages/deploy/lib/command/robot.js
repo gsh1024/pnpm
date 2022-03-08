@@ -6,8 +6,10 @@
  * 203: 自动测试错误
  * 204: 应用构建错误
  * 205: 资源部署错误
+ * 206: 应用分发错误
  */
 
+const { EOL } = require('os')
 const shell = require('shelljs')
 const log = require('../log')
 
@@ -16,6 +18,15 @@ module.exports = (service, options) => {
   const args = service.params[0]
   const serverConfig = service.serverConfig
   const { name, robot } = service.deployConfig
+
+  // 测试数据
+  // env.BUILD_URL = 'https://baidu.com'
+  // env.JOB_NAME = '测试'
+  // env.JOB_URL = 'https://baidu.com'
+  // env.GIT_BRANCH = '测试'
+  // env.GIT_COMMIT = '测试'
+  // env.BUILD_ID = 100
+  // env.BUILD_URL = 'https://baidu.com'
 
   // 开启通知
   if (
@@ -28,7 +39,7 @@ module.exports = (service, options) => {
 
     let key = serverConfig[`${args.env}Key`]
     if (key) {
-      const consoleUrl = `${env.BUILD_URL}console`
+      const consoleUrl = `${env.BUILD_URL}consoleText`
       const info = {
         msgtype: 'template_card',
         template_card: {
@@ -52,6 +63,11 @@ module.exports = (service, options) => {
             url: consoleUrl
           },
           horizontal_content_list: [
+            {
+              keyname: '任务环境',
+              value: service.getTaskEnv(args.env),
+              type: 0
+            },
             {
               keyname: '任务名称',
               value: env.JOB_NAME || '未知',
@@ -88,6 +104,11 @@ module.exports = (service, options) => {
               title: '查看控制台详情',
               type: 1,
               url: consoleUrl
+            },
+            {
+              title: '查看资源部署日志',
+              type: 1,
+              url: env.JOB_URL + 'ws/qupload.log'
             }
           ],
           card_action: {
@@ -98,10 +119,12 @@ module.exports = (service, options) => {
       }
 
       if (shell.exec(`curl 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?debug=1&key=${key}' -H 'Content-Type:application/json' -d '${JSON.stringify(info)}'`).code) {
+        shell.echo(EOL)
         shell.exit(1)
       }
 
       if (options.code === 200) {
+        shell.echo(EOL)
         shell.exit(0)
       }
     } else {
