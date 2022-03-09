@@ -7,8 +7,8 @@ module.exports = {
   // 任务中文名
   name: '',
 
-  // 项目基本URL，xxx 前后必须一致
-  publicPath: process.env.NODE_ENV === 'production' ? '//cq1.jianzhishuyuan.net/assets/xxx/' : '/xxx/',
+  // 项目基本URL，前后必须带有 / 斜杠
+  publicPath: process.env.BUILD_ID ? '//cq1.jianzhishuyuan.net/assets/xxx/' : '/xxx/',
 
   // 应用分发，host 为主机id，dir 为部署目录
   ansible: {

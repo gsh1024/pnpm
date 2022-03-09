@@ -2,6 +2,7 @@
  * 资源部署
  */
 
+const path = require('path')
 const shell = require('shelljs')
 const log = require('../log')
 
@@ -16,11 +17,16 @@ module.exports = (service) => {
     Object.assign(qupload, deployConfig.qshell.qupload)
   }
 
-  if (deployConfig.publicPath) {
-    Object.assign(qupload, {
-      key_prefix: `assets${deployConfig.publicPath}`
-    })
+  let pathName = deployConfig.publicPath.replace(/(^\s*)|(\s*$)/g, '')
+  if (pathName === '' || pathName === '/') {
+    pathName = '/xxx/'
+  } else {
+    pathName = `/${path.basename(pathName)}/`
   }
+
+  Object.assign(qupload, {
+    key_prefix: `assets${pathName}`
+  })
 
   let options = ''
   for (let i in qupload) {
