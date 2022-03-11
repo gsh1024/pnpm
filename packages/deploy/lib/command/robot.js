@@ -118,7 +118,18 @@ module.exports = (service, options) => {
         }
       }
 
-      if (shell.exec(`curl 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?debug=1&key=${key}' -H 'Content-Type:application/json' -d '${JSON.stringify(info)}'`).code) {
+      const robotUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?debug=1&key='
+
+      const cardInfo = `curl '${robotUrl}${key}' -H 'Content-Type:application/json' -d '${JSON.stringify(info)}'`
+
+      // const textInfo = `curl '${robotUrl}${key}' -H 'Content-Type:application/json' -d '${JSON.stringify({
+      //   msgtype: 'text',
+      //   text: {
+      //     mentioned_list: ["NingJingZhiYuan2"]
+      //   }
+      // })}'`
+
+      if (shell.exec(cardInfo).code) {
         shell.echo(EOL)
         shell.exit(1)
       }

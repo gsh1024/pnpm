@@ -10,7 +10,12 @@ module.exports = (service) => {
   const args = service.params[0]
   const { ansible, qshell } = service.deployConfig
 
-  if (Object.keys(ansible).length) {
+  if (
+    Object.keys(ansible).length &&
+    ansible[args.env] &&
+    ansible[args.env].host &&
+    ansible[args.env].dir
+  ) {
 
     shell.echo(log.green('--- 应用分发 ---'))
 
