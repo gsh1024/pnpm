@@ -2,11 +2,58 @@
  * 应用构建
  */
 
+const fs = require('fs')
 const shell = require('shelljs')
 const log = require('../log')
 
 module.exports = (service) => {
   const options = Object.assign(service.tplConfigDefault.build, service.deployConfig.build || {})
+  const packageJson = require(service.packageJson)
+  const scripts = packageJson.scripts || {}
+  if (service.isMpa()) {
+    shell.echo(log.green('--- 指令检测 ---'))
+
+    // const env = {
+    //   giteeActionType: 'MERGE',
+    //   giteePullRequestDescription: '[ci-build](123,122)',
+    //   jsonBody: {
+    //     head_commit: {
+    //       message: 'build123,12),[ci-build](a,f,s)\n'
+    //     }
+    //   }
+    // }
+
+    const env = process.env
+    const jsonBody = env.jsonBody
+    if (jsonBody) {
+      const reg = /(?<=\[ci-build\]\().*?(?=\))/
+      const setPages = msg => {
+        const arr = msg.match(reg)
+        if (arr && arr[0]) {
+          let pages = arr[0].split(',')
+          fs.writeFileSync(service.devConfigUrl, `module.exports=${JSON.stringify({
+            build: pages
+          })}`, {
+            encoding: 'utf-8'
+          })
+        } else {
+          service.cmd('robot', {
+            code: 207,
+            exec: {
+              stdout: 'Missing [ci-build] parameter or parameter passing error.'
+            }
+          })
+          shell.exit(1)
+        }
+      }
+      if (env.giteeActionType === 'PUSH') {
+        setPages(jsonBody.head_commit.message)
+      }
+      if (env.giteeActionType === 'MERGE' || env.giteeActionType === 'NOTE') {
+        setPages(env.giteePullRequestDescription)
+      }
+    }
+  }
 
   shell.echo(log.green('--- 环境信息 ---'))
 
@@ -27,7 +74,7 @@ module.exports = (service) => {
 
   shell.echo(log.green('--- 代码检测 ---'))
 
-  const execLint = shell.exec('npx vue-cli-service lint')
+  let execLint = shell.exec(scripts.lint ? 'npm run lint' : 'npx vue-cli-service lint')
   if (execLint.code) {
     service.cmd('robot', {
       code: 202,
@@ -37,7 +84,7 @@ module.exports = (service) => {
   }
 
   // 非必须
-  if (options && options.test) {
+  if (scripts.test) {
     shell.echo(log.green('--- 自动测试 ---'))
 
     const execTest = shell.exec('npm run test')
@@ -52,18 +99,22 @@ module.exports = (service) => {
 
   shell.echo(log.green('--- 应用构建 ---'))
 
-  let report = ''
-  let clean = ''
-  if (options.report === 'html') {
-    report = ' --report'
-  } else if (options.report === 'json') {
-    report = ' --report-json'
+  let execBuild = {}
+  if (scripts.build) {
+    execBuild = shell.exec('npm run build')
+  } else {
+    let report = ''
+    let clean = ''
+    if (options.report === 'html') {
+      report = ' --report'
+    } else if (options.report === 'json') {
+      report = ' --report-json'
+    }
+    if (!options.clean) {
+      clean = ' --no-clean'
+    }
+    execBuild = shell.exec(`npx vue-cli-service build${report}${clean}`)
   }
-  if (!options.clean) {
-    clean = ' --no-clean'
-  }
-
-  const execBuild = shell.exec(`npx vue-cli-service build${report}${clean}`)
   if (execBuild.code) {
     service.cmd('robot', {
       code: 204,

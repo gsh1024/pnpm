@@ -26,6 +26,12 @@ pnpm unpublish --filter @jianzhi/pkg --no-git-checks --force    # 删除包
 
 更多命令参见 [CLI commands](https://pnpm.io/cli/add)
 
+###  - 自动版本
+
+补丁版：```npm version patch```
+小版本：```npm version minor```
+大版本：```npm version major```
+
 ### - 注意事项
 
 - 自定义的 npm 命令都必须添加 `jz-` 前缀，避免与其他第三方包命令冲突，命名统一采用横杆命名。

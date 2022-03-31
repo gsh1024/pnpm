@@ -11,10 +11,7 @@ module.exports = {
     report: 'html',
 
     // 构建之前清除目标目录
-    clean: true,
-
-    // 自动测试
-    test: false
+    clean: true
   },
 
   // 资源部署

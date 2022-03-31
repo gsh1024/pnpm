@@ -3,11 +3,10 @@
  */
 
 const fs = require('fs')
-const { EOL, type } = require('os')
+const { EOL } = require('os')
 const log = require('../log')
 
 module.exports = (service) => {
-
   const args = service.params[0]
   const env = service.env()
 

@@ -19,7 +19,9 @@ module.exports = class Service {
     this.serverConfigDir = serverConfigDir
     this.serverConfigUrl = serverConfigDir + '/server.config.js'
     this.deployConfigUrl = path.resolve('./deploy.config.js')
+    this.devConfigUrl = path.resolve('./dev.config.js')
     this.vueConfig = path.resolve('./vue.config.js')
+    this.packageJson = path.resolve('./package.json')
     this.params = params
     this.deployConfig = this.checkDeployConfig()
     this.serverConfig = this.checkServerConfig()
@@ -65,6 +67,19 @@ module.exports = class Service {
     }
   }
 
+  // 检测是否为多页应用
+  isMpa() {
+    try {
+      const vueConfig = require(this.vueConfig)
+      if (vueConfig && vueConfig.pages) {
+        return true
+      }
+      return false
+    } catch (error) {
+      return false
+    }
+  }
+
   // 补零
   addZero(n) {
     let num = parseInt(n)
@@ -84,7 +99,6 @@ module.exports = class Service {
 
   // 获取执行耗时
   getExecTime() {
-    // `${this.addZero(Math.floor((second % 86400) / 3600))}时` +
     const second = Math.floor((new Date().getTime() - this.startDate.getTime()) / 1000)
     return `${this.addZero(Math.floor(((second % 86400) % 3600) / 60))}分` +
       `${this.addZero(Math.floor(((second % 86400) % 3600) % 60))}秒`
@@ -106,7 +120,8 @@ module.exports = class Service {
       203: '自动测试错误',
       204: '应用构建错误',
       205: '资源部署错误',
-      206: '应用分发错误'
+      206: '应用分发错误',
+      207: '指令参数错误'
     }
     return code && error[code] ? error[code] : ''
   }
