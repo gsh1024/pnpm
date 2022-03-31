@@ -1,6 +1,6 @@
 {
   "name": "@jianzhi/deploy",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "JZ-Deploy 是一款由简知前端自研，致力于让简知前端应用 CI/CD 流程更加简单高效的 CLI 工具~",
   "main": "index.js",
   "scripts": {},

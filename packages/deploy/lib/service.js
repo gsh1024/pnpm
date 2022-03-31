@@ -67,19 +67,6 @@ module.exports = class Service {
     }
   }
 
-  // 检测是否为多页应用
-  isMpa() {
-    try {
-      const vueConfig = require(this.vueConfig)
-      if (vueConfig && vueConfig.pages) {
-        return true
-      }
-      return false
-    } catch (error) {
-      return false
-    }
-  }
-
   // 补零
   addZero(n) {
     let num = parseInt(n)

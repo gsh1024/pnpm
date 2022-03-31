@@ -10,7 +10,7 @@ module.exports = (service) => {
   const options = Object.assign(service.tplConfigDefault.build, service.deployConfig.build || {})
   const packageJson = require(service.packageJson)
   const scripts = packageJson.scripts || {}
-  if (service.isMpa()) {
+  if (service.deployConfig.mpa) {
     shell.echo(log.green('--- 指令检测 ---'))
 
     // const env = {
@@ -24,8 +24,8 @@ module.exports = (service) => {
     // }
 
     const env = process.env
-    const jsonBody = env.jsonBody
-    if (jsonBody) {
+    if (env.jsonBody) {
+      const jsonBody = JSON.parse(env.jsonBody)
       const reg = /(?<=\[ci-build\]\().*?(?=\))/
       const setPages = msg => {
         const arr = msg.match(reg)
@@ -36,6 +36,7 @@ module.exports = (service) => {
           })}`, {
             encoding: 'utf-8'
           })
+          shell.echo(`pages: ${arr[0]}`)
         } else {
           service.cmd('robot', {
             code: 207,
@@ -75,6 +76,7 @@ module.exports = (service) => {
   shell.echo(log.green('--- 代码检测 ---'))
 
   let execLint = shell.exec(scripts.lint ? 'npm run lint' : 'npx vue-cli-service lint')
+  console.error(execLint)
   if (execLint.code) {
     service.cmd('robot', {
       code: 202,

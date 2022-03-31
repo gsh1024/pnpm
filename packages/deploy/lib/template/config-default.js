@@ -4,6 +4,9 @@
 
 module.exports = {
 
+  // 是否为多页应用
+  // mpa: true,
+
   // 构建
   build: {
 
