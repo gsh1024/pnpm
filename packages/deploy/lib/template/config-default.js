@@ -35,9 +35,6 @@ module.exports = {
       // 排除文件后缀
       skip_suffixes: '.html,.ico',
 
-      // 日志文件
-      log_file: 'qupload.log',
-
       // 检测新增
       rescan_local: true,
 

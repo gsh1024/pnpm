@@ -25,7 +25,8 @@ module.exports = (service) => {
   }
 
   Object.assign(qupload, {
-    key_prefix: `assets${pathName}`
+    key_prefix: `assets${pathName}`,
+    log_file: `logs/qupload/${process.env.GIT_COMMIT}.log`
   })
 
   let options = ''

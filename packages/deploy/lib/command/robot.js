@@ -109,7 +109,7 @@ module.exports = (service, options) => {
             {
               title: '查看资源部署日志',
               type: 1,
-              url: env.JOB_URL + 'ws/qupload.log'
+              url: env.JOB_URL + `ws/logs/qupload/${env.GIT_COMMIT}.log`
             }
           ],
           card_action: {
