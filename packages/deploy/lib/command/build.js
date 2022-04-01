@@ -38,10 +38,12 @@ module.exports = (service) => {
           })
           shell.echo(`pages: ${arr[0]}`)
         } else {
+          const tips = 'Missing [ci-build] parameter or parameter passing error.'
+          shell.echo(tips)
           service.cmd('robot', {
             code: 207,
             exec: {
-              stdout: 'Missing [ci-build] parameter or parameter passing error.'
+              stdout: tips
             }
           })
           shell.exit(1)
@@ -76,7 +78,6 @@ module.exports = (service) => {
   shell.echo(log.green('--- 代码检测 ---'))
 
   let execLint = shell.exec(scripts.lint ? 'npm run lint' : 'npx vue-cli-service lint')
-  console.error(execLint)
   if (execLint.code) {
     service.cmd('robot', {
       code: 202,
