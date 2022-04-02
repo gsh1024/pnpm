@@ -14,29 +14,49 @@ module.exports = (service) => {
     shell.echo(log.green('--- 指令检测 ---'))
 
     // const env = {
-    //   giteeActionType: 'MERGE',
+    //   giteeActionType: 'PUSH',
     //   giteePullRequestDescription: '[ci-build](123,122)',
     //   jsonBody: {
     //     head_commit: {
     //       message: 'build123,12),[ci-build](a,f,s)\n'
-    //     }
+    //     },
+    //     commits: [
+    //       {
+    //         message: '[ci-build](demo1) 测试\n'
+    //       },
+    //       {
+    //         message: '[ci-build](demo1) 测试\n'
+    //       },
+    //       {
+    //         message: '[ci-build](demo3) 测试\n'
+    //       },
+    //       {
+    //         message: '[ci-build](demo3) 测试\n'
+    //       }
+    //     ]
     //   }
     // }
 
     const env = process.env
     if (env.jsonBody) {
       const jsonBody = JSON.parse(env.jsonBody)
-      const reg = /(?<=\[ci-build\]\().*?(?=\))/
-      const setPages = msg => {
-        const arr = msg.match(reg)
-        if (arr && arr[0]) {
-          let pages = arr[0].split(',')
+      const reg = /(?<=\[ci-build\]\().*?(?=\))/g
+      const setPages = (commits = []) => {
+        let messages = ''
+        commits.forEach(item => {
+          if (item && item.message) {
+            messages += item.message
+          }
+        })
+        const regPages = messages.match(reg) || []
+        if (regPages.length) {
+          const pages = Array.from(new Set(regPages.join().split(',')))
           fs.writeFileSync(service.devConfigUrl, `module.exports=${JSON.stringify({
             build: pages
           })}`, {
             encoding: 'utf-8'
           })
-          shell.echo(`pages: ${arr[0]}`)
+          shell.echo(`pages: ${pages.join(', ')}`)
         } else {
           const tips = 'Missing [ci-build] parameter or parameter passing error.'
           shell.echo(tips)
@@ -50,10 +70,12 @@ module.exports = (service) => {
         }
       }
       if (env.giteeActionType === 'PUSH') {
-        setPages(jsonBody.head_commit.message)
+        setPages(jsonBody.commits)
       }
       if (env.giteeActionType === 'MERGE' || env.giteeActionType === 'NOTE') {
-        setPages(env.giteePullRequestDescription)
+        setPages({
+          message: env.giteePullRequestDescription
+        })
       }
     }
   }
