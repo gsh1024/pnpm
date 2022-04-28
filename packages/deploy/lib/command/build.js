@@ -73,9 +73,9 @@ module.exports = (service) => {
         setPages(jsonBody.commits)
       }
       if (env.giteeActionType === 'MERGE' || env.giteeActionType === 'NOTE') {
-        setPages({
+        setPages([{
           message: env.giteePullRequestDescription
-        })
+        }])
       }
     }
   }
