@@ -73,9 +73,18 @@ module.exports = (service) => {
         setPages(jsonBody.commits)
       }
       if (env.giteeActionType === 'MERGE' || env.giteeActionType === 'NOTE') {
-        setPages([{
-          message: env.giteePullRequestDescription
-        }])
+        // 合并与评论类型，且已合并与可以合并
+        if (
+          (jsonBody.action === 'merge' || jsonBody.action === 'comment') &&
+          jsonBody.pull_request.merged &&
+          jsonBody.pull_request.mergeable
+        ) {
+          setPages([{
+            message: env.giteePullRequestDescription
+          }])
+        } else {
+          shell.exit(1)
+        }
       }
     }
   }
