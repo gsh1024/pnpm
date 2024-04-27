@@ -1,21 +1,30 @@
 {
-  "name": "pnpm",
-  "version": "1.0.0",
-  "description": "这是一个基于 pnpm workspace 工作空间的单体存储库（Monorepo）工程方案，简知的私有 npm 包都将基于此方案实现。旧的私有包位于 [npm](https://gitee.com/jz-fe/npm) 仓库中。",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "@jianzhi/deploy",
+  "version": "1.1.2",
+  "description": "JZ-Deploy 是一款由简知前端自研，致力于让简知前端应用 CI/CD 流程更加简单高效的 CLI 工具~",
+  "main": "dist/index.js",
+  "scripts": {},
+  "bin": {
+    "jz-deploy": "./dist/bin/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@gitee.com:jz-fe/pnpm.git"
+    "url": "https://gitee.com/jz-fe/pnpm/tree/master/packages/deploy"
   },
-  "keywords": [],
+  "keywords": [
+    "CI",
+    "CD",
+    "七牛",
+    "企微机器人"
+  ],
   "author": "guoshuohui",
   "license": "ISC",
   "dependencies": {
     "chalk": "4.1.2",
-    "commander": "^9.0.0",
-    "shelljs": "^0.8.5"
+    "commander": "9.0.0",
+    "shelljs": "0.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
   }
 }
